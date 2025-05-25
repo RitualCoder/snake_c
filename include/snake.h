@@ -11,13 +11,13 @@ typedef struct
 } Point;
 typedef enum
 {
-    UP,
-    RIGHT,
-    DOWN,
-    LEFT
+    UP = 0,
+    RIGHT = 1,
+    DOWN = 2,
+    LEFT = 3
 } Direction;
 
-// Vérifie auto-collision (la tête vs le reste du corps)
+// renvoie true si la tête (snake[0]) touche un autre segment
 bool check_self_collision(const Point snake[], int len);
 
 #endif // SNAKE_H

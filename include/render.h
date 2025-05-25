@@ -1,8 +1,7 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-// Rend le jeu : damier, pomme, serpent interpolé
-// t ∈ [0,1] est le ratio d’interpolation
-void render_game(float t);
+// dessine le plateau, la pomme et le serpent au pas entier
+void render_game(void);
 
 #endif // RENDER_H

@@ -40,7 +40,7 @@ int main(void)
                 t = 0;
             else if (t > 1)
                 t = 1;
-            render_game(t);
+            render_game();
             SDL_Delay(1);
             break;
         }

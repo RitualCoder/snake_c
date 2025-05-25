@@ -4,8 +4,7 @@
 #include "snake.h"
 
 extern Point apple;
-
-// Place la pomme dans une case libre aléatoire
+// place la pomme dans une case libre du serpent
 void spawn_apple(const Point snake[], int len);
 
 #endif // APPLE_H

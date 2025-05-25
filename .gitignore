@@ -1,0 +1,29 @@
+# Fichiers objets et exécutables
+*.o
+*.a
+*.so
+snake
+
+# Dossier de build (si vous utilisez un dossier dédié)
+build/
+
+# Fichiers de configuration et métadonnées
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Logs et bases de données temporaires
+*.log
+
+# Fichiers SDL_image/SDL_ttf temporaires
+*.bmp
+*.png~
+
+# Cache CMake ou autres outils (le cas échéant)
+CMakeFiles/
+CMakeCache.txt
+
+# En cas d'IDE
+.vscode/
+.idea/

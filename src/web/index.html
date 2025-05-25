@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake SDL2 WASM</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>🐍 Snake WebAssembly</h1>
+
+      <div class="canvas-frame">
+        <div class="canvas-container">
+          <canvas id="canvas" width="480" height="480"></canvas>
+        </div>
+      </div>
+
+      <!-- Switch pour passer du D-pad au joystick sur mobile -->
+      <div class="control-switch">
+        <label for="controlToggle">
+          <input type="checkbox" id="controlToggle" />
+          <span class="slider"></span>
+          Joystick
+        </label>
+      </div>
+
+      <!-- Zone de contrôles mobile (D-pad + joystick) -->
+      <div class="mobile-controls">
+        <div class="dpad">
+          <button class="up">↑</button>
+          <button class="left">←</button>
+          <button class="right">→</button>
+          <button class="down">↓</button>
+        </div>
+        <div class="joystick">
+          <div class="stick"></div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>⏺ Flèches / Touches</span>
+        <span>↩ Entrée / R</span>
+        <span>⎋ Échap</span>
+      </div>
+    </div>
+
+    <!-- Module Emscripten doit être défini AVANT le script généré -->
+    <script>
+      var Module = { canvas: document.getElementById("canvas") };
+    </script>
+    {{{ SCRIPT }}}
+
+    <script>
+      // Basculer D-pad ↔ joystick
+      document.addEventListener("DOMContentLoaded", () => {
+        const toggle = document.getElementById("controlToggle");
+        const dpad = document.querySelector(".dpad");
+        const joy = document.querySelector(".joystick");
+
+        function updateControls() {
+          if (toggle.checked) {
+            dpad.style.display = "none";
+            joy.style.display = "block";
+          } else {
+            dpad.style.display = "grid";
+            joy.style.display = "none";
+          }
+        }
+
+        toggle.addEventListener("change", updateControls);
+
+        // Initialisation au chargement (mobile uniquement)
+        if (window.innerWidth <= 400) {
+          updateControls();
+        }
+
+        // D-pad touch
+        const map = {
+          up: "ArrowUp",
+          down: "ArrowDown",
+          left: "ArrowLeft",
+          right: "ArrowRight",
+        };
+        Object.keys(map).forEach((dir) => {
+          document
+            .querySelector(`.dpad .${dir}`)
+            .addEventListener("touchstart", () => {
+              document.dispatchEvent(
+                new KeyboardEvent("keydown", {
+                  key: map[dir],
+                  code: map[dir],
+                  bubbles: true,
+                })
+              );
+            });
+        });
+
+        // Joystick basique (détection de déplacement)
+        const stick = document.querySelector(".joystick .stick");
+        let origin,
+          active = false;
+        const maxDist = 40;
+
+        stick.addEventListener(
+          "touchstart",
+          (e) => {
+            active = true;
+            const rect = e.target.closest(".joystick").getBoundingClientRect();
+            origin = {
+              x: rect.left + rect.width / 2,
+              y: rect.top + rect.height / 2,
+            };
+          },
+          { passive: false }
+        );
+
+        stick.addEventListener(
+          "touchmove",
+          (e) => {
+            if (!active) return;
+            const t = e.touches[0];
+            let dx = t.clientX - origin.x;
+            let dy = t.clientY - origin.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist > maxDist) {
+              dx = (dx / dist) * maxDist;
+              dy = (dy / dist) * maxDist;
+            }
+            stick.style.transform = `translate(${dx}px, ${dy}px)`;
+
+            // émettre un keydown correspondant à la direction principale
+            const key =
+              Math.abs(dx) > Math.abs(dy)
+                ? dx > 0
+                  ? "ArrowRight"
+                  : "ArrowLeft"
+                : dy > 0
+                ? "ArrowDown"
+                : "ArrowUp";
+            document.dispatchEvent(
+              new KeyboardEvent("keydown", {
+                key,
+                code: key,
+                bubbles: true,
+              })
+            );
+            e.preventDefault();
+          },
+          { passive: false }
+        );
+
+        stick.addEventListener("touchend", () => {
+          active = false;
+          stick.style.transform = `translate(0, 0)`;
+        });
+      });
+    </script>
+  </body>
+</html>

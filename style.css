@@ -1,0 +1,222 @@
+/* Reset basique */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Courier New", monospace;
+  background: #9bbc0f;
+  color: #0f380f;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3rem;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #306230;
+  text-shadow: 1px 1px #afe57d;
+}
+
+.canvas-frame {
+  background: #cbe86b;
+  border: 12px solid #306230;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 4px #9bbc0f, 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 1rem;
+}
+
+.canvas-container {
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  background: #000;
+}
+
+/* Footer */
+.footer {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #306230;
+}
+
+@media (max-width: 400px) {
+  .footer {
+    display: none;
+  }
+}
+
+/* ————— Contrôles ————— */
+
+/* Par défaut (desktop), on cache l’ensemble des contrôles mobiles */
+.mobile-controls {
+  display: none;
+}
+
+/* desktop (>400px) : masquer D-pad si jamais */
+@media (min-width: 401px) {
+  .dpad {
+    display: none !important;
+  }
+}
+
+/* mobile (≤400px) : afficher zone de contrôles */
+@media (max-width: 400px) {
+  .mobile-controls {
+    display: block;
+    margin-top: 1rem;
+  }
+  /* joystick caché par défaut */
+  .joystick {
+    display: none;
+  }
+}
+
+/* Desktop > 400px, on masque explicitement le D-pad au cas où */
+@media (min-width: 401px) {
+  .dpad {
+    display: none !important;
+  }
+}
+
+/* Mobile ≤ 400px : on active switch + mobile-controls */
+@media (max-width: 400px) {
+  .control-switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  /* On positionne le label pour contenir l’absolute */
+  .control-switch label {
+    position: relative; /* ← essentiel */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: #306230;
+    font-size: 0.9rem;
+  }
+
+  /* L’input reste transparent mais ne couvre plus que le slider */
+  .control-switch input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3rem; /* même que .slider */
+    height: 1.5rem; /* même que .slider */
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  /* Slider visuel */
+  .control-switch .slider {
+    display: inline-block;
+    width: 3rem;
+    height: 1.5rem;
+    background: #ccc;
+    border-radius: 1.5rem;
+    position: relative;
+    transition: background 0.2s;
+    z-index: 1;
+  }
+  .control-switch .slider::before {
+    content: "";
+    position: absolute;
+    width: 1.2rem;
+    height: 1.2rem;
+    top: 0.15rem;
+    left: 0.15rem;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+
+  /* État coché */
+  .control-switch input:checked + .slider {
+    background: #306230;
+  }
+  .control-switch input:checked + .slider::before {
+    transform: translateX(1.5rem);
+  }
+}
+
+/* D-pad */
+.dpad {
+  display: grid;
+  grid-template-areas:
+    ". up ."
+    "left down right";
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0.5rem;
+  justify-items: center;
+  align-items: center;
+}
+.dpad button {
+  width: 4rem;
+  height: 4rem;
+  background: #306230;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  touch-action: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.up {
+  grid-area: up;
+}
+.down {
+  grid-area: down;
+}
+.left {
+  grid-area: left;
+}
+.right {
+  grid-area: right;
+}
+
+/* Joystick */
+.joystick {
+  width: 6rem;
+  height: 6rem;
+  margin: 0 auto;
+  background: #306230;
+  border-radius: 50%;
+  position: relative;
+  touch-action: none;
+}
+.joystick .stick {
+  width: 2rem;
+  height: 2rem;
+  background: #9bbc0f;
+  border-radius: 50%;
+  position: absolute;
+  left: calc(50% - 1rem);
+  top: calc(50% - 1rem);
+  transition: transform 0.1s;
+}

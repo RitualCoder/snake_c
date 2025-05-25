@@ -2,8 +2,6 @@
 #include "game.h"
 #include <stdlib.h>
 
-Point apple;
-
 void spawn_apple(const Point snake[], int len)
 {
     bool conflict;

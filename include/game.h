@@ -20,6 +20,7 @@ extern Point snake[MAX_SNAKE];
 extern Point prev_snake[MAX_SNAKE]; // pas utilisé ici, mais gardé pour cohérence
 extern int snake_len;
 extern Direction dir;
+extern Point apple;
 
 void init_game(void);
 void update_game(void);

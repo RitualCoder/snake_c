@@ -1,6 +1,8 @@
 {
   "files.associations": {
     "render.h": "c",
-    "game.h": "c"
-  }
+    "game.h": "c",
+    "emscripten.h": "c"
+  },
+  "liveServer.settings.port": 5501
 }

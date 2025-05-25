@@ -127,8 +127,8 @@ Activé par défaut : SDL adapte l’échelle si nécessaire.
 
 ## Assets
 
-- **Fonts** : placer `Verdana.ttf` dans `assets/fonts/`
-- **Images** : placer les PNG dans `assets/images/` avec les noms listés
+- **Fonts** : `Verdana.ttf` dans `assets/fonts/`
+- **Images** : Dans `assets/images/`
 
 ## Nettoyage
 
@@ -138,4 +138,4 @@ make clean
 
 ## Licence
 
-MIT © Ton Nom ([https://github.com/ton-utilisateur](https://github.com/ton-utilisateur))
+MIT © Enzo Cornaggia ([https://github.com/RitualCoder](https://github.com/RitualCoder))

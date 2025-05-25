@@ -22,7 +22,7 @@ EMFLAGS  := -O2 \
             -s USE_SDL_TTF=2 \
             -s ALLOW_MEMORY_GROWTH=1 \
             --preload-file assets
-WASM_OUT := snake.html
+WASM_OUT := index.html
 SHELL_FILE := src/web/index.html
 STYLE_FILE := src/web/style.css
 

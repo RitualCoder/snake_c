@@ -96,6 +96,9 @@ canvas {
   .dpad {
     display: none !important;
   }
+  .control-switch {
+    display: none !important;
+  }
 }
 
 /* Mobile ≤ 400px : on active switch + mobile-controls */
